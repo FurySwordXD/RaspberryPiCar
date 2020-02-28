@@ -14,20 +14,25 @@ def end():
 import atexit
 atexit.register(end)
 
-left_wheels = 26
-right_wheels = 13
+left_wheels_forward = 26
+left_wheels_reverse = 19
+right_wheels_forward = 13
+right_wheels_reverse = 6
 sleeptime = 1
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
-GPIO.setup(left_wheels, GPIO.OUT)
-GPIO.setup(right_wheels, GPIO.OUT)
+GPIO.setup(left_wheels_forward, GPIO.OUT)
+GPIO.setup(left_wheels_reverse, GPIO.OUT)
+GPIO.setup(right_wheels_forward, GPIO.OUT)
+GPIO.setup(right_wheels_reverse, GPIO.OUT)
 
 data = {
     'forward': 0,
     'right': 0,
-    'left': 0
+    'left': 0,
+    'reverse': 0
 }
 
 def reset_data():
@@ -40,18 +45,24 @@ def set_data(key, value):
     move()
 
 def move():
-    GPIO.output(left_wheels, GPIO.LOW)
-    GPIO.output(right_wheels, GPIO.LOW)
+    GPIO.output(left_wheels_forward, GPIO.LOW)
+    GPIO.output(left_wheels_reverse, GPIO.LOW)
+    GPIO.output(right_wheels_forward, GPIO.LOW)
+    GPIO.output(right_wheels_reverse, GPIO.LOW)
 
     if data['forward'] == 1:
-        GPIO.output(left_wheels, GPIO.HIGH)
-        GPIO.output(right_wheels, GPIO.HIGH)
+        GPIO.output(left_wheels_forward, GPIO.HIGH)
+        GPIO.output(right_wheels_forward, GPIO.HIGH)
 
     elif data['right'] == 1:
-        GPIO.output(right_wheels, GPIO.HIGH)
+        GPIO.output(left_wheels_forward, GPIO.HIGH)
 
     elif data['left'] == 1:
-        GPIO.output(left_wheels, GPIO.HIGH)
+        GPIO.output(right_wheels_forward, GPIO.HIGH)
+
+    elif data['reverse'] == 1:
+        GPIO.output(left_wheels_reverse, GPIO.HIGH)
+        GPIO.output(right_wheels_reverse, GPIO.HIGH)
 
 
 @socket_io.on('message')

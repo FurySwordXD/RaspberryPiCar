@@ -26,12 +26,13 @@
                         Forward: <span id="forwardValue">0</span><br>
                         Left: <span id="leftValue">0</span><br>
                         Right: <span id="rightValue">0</span><br>
+                        Reverse: <span id="reverseValue">0</span>
                     </div>
                 </div>
             </div>
             <div class="col-md-9 p-5">
                 <center>
-                    <button class="btn btn-primary" id="forward" onmousedown="move('forward', 1)" onmouseup="move('forward', 0)">Forward</button>
+                    <button class="btn btn-primary" onmousedown="move('forward', 1)" onmouseup="move('forward', 0)">Forward</button>
                 </center>
                 <br>
                 <center>
@@ -39,6 +40,10 @@
                     <img style="width: 20%;" src="{{ url_for('static', filename='car.png') }}">
                     <button class="btn btn-primary m-5" onmousedown="move('right', 1)" onmouseup="move('right', 0)">Right</button>
                 </center>
+                <br>
+                <center>
+                    <button class="btn btn-primary" onmousedown="move('reverse', 1)" onmouseup="move('reverse', 0)">Reverse</button>
+                </center>                
             </div>
         </div>
     </div>
@@ -69,6 +74,7 @@
                         case 'forward': $("#forwardValue").text(data[k]); break;
                         case 'left': $("#leftValue").text(data[k]); break;
                         case 'right': $("#rightValue").text(data[k]); break;
+                        case 'reverse': $("#reverseValue").text(data[k]); break;
                     }
                 }
                 
