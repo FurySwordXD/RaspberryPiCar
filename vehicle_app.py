@@ -15,7 +15,7 @@ import atexit
 atexit.register(end)
 
 left_wheels = 26
-right_wheels = 6
+right_wheels = 13
 sleeptime = 1
 
 GPIO.setwarnings(False)
