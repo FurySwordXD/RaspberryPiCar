@@ -14,6 +14,7 @@ function createJoystick(parent) {
     document.addEventListener('touchend', handleMouseUp);
 
     let dragStart = null;
+    let dragging = false;
     let currentPos = { x: 0, y: 0 };
 
     function handleMouseDown(event) {
@@ -30,7 +31,7 @@ function createJoystick(parent) {
             x: event.clientX,
             y: event.clientY,
         };
-
+        dragging = true;
     }
 
     function handleMouseMove(event) {
@@ -56,13 +57,14 @@ function createJoystick(parent) {
         stick.style.transform = `translate3d(0px, 0px, 0px)`;
         dragStart = null;
         currentPos = { x: 0, y: 0 };
+        dragging = false;
     }
 
     parent.appendChild(stick);
 
     return {
         getPosition: () => currentPos,
-        dragging: () => dragStart ? true : false,
+        dragging: () => dragging,
         getMaxRange: () => maxDiff,
     };
 }
