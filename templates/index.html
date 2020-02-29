@@ -105,6 +105,7 @@
 
         function setMovementInput(key, value)
         {
+            value = Math.round(value * 100) / 100;
             switch(key)
             {
                 case 'throttle': $("#throttleValue").val(value); break;
