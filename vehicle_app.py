@@ -1,69 +1,75 @@
 import sys
 import time
-import RPi.GPIO as GPIO
+import atexit
 from flask import Flask, request, render_template
 from flask_socketio import SocketIO, send, emit
+
+import RPi.GPIO as GPIO
 
 app = Flask(__name__, static_url_path='/static/')
 app.config['SECRET_KEY'] = 'Secret'
 socket_io = SocketIO(app)
 
-def end():
-    GPIO.cleanup()
+class RPICar:
 
-import atexit
-atexit.register(end)
+    def __init__(self):
+        self.left_wheels_forward = 26
+        self.left_wheels_reverse = 19
+        self.right_wheels_forward = 13
+        self.right_wheels_reverse = 6
 
-left_wheels_forward = 26
-left_wheels_reverse = 19
-right_wheels_forward = 13
-right_wheels_reverse = 6
-sleeptime = 1
+        self.data = {
+            'forward': 0,
+            'right': 0,
+            'left': 0,
+            'reverse': 0
+        }
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
 
-GPIO.setup(left_wheels_forward, GPIO.OUT)
-GPIO.setup(left_wheels_reverse, GPIO.OUT)
-GPIO.setup(right_wheels_forward, GPIO.OUT)
-GPIO.setup(right_wheels_reverse, GPIO.OUT)
+        GPIO.setup(self.left_wheels_forward, GPIO.OUT)
+        GPIO.setup(self.left_wheels_reverse, GPIO.OUT)
+        GPIO.setup(self.right_wheels_forward, GPIO.OUT)
+        GPIO.setup(self.right_wheels_reverse, GPIO.OUT)
 
-data = {
-    'forward': 0,
-    'right': 0,
-    'left': 0,
-    'reverse': 0
-}
+        atexit.register(self.end)
 
-def reset_data():
-    for k in data.keys():
-        data[k] = 0
+    def end(self):
+        GPIO.cleanup()
 
-def set_data(key, value):
-    reset_data()
-    data[key] = value
-    move()
+    def reset_data(self):
+        for k in self.data.keys():
+            self.data[k] = 0
 
-def move():
-    GPIO.output(left_wheels_forward, GPIO.LOW)
-    GPIO.output(left_wheels_reverse, GPIO.LOW)
-    GPIO.output(right_wheels_forward, GPIO.LOW)
-    GPIO.output(right_wheels_reverse, GPIO.LOW)
+    def set_data(self, key, value):
+        reset_data()
+        self.data[key] = value
+        self.move()
 
-    if data['forward'] == 1:
-        GPIO.output(left_wheels_forward, GPIO.HIGH)
-        GPIO.output(right_wheels_forward, GPIO.HIGH)
+    def move(self):
+        GPIO.output(self.left_wheels_forward, GPIO.LOW)
+        GPIO.output(self.left_wheels_reverse, GPIO.LOW)
+        GPIO.output(self.right_wheels_forward, GPIO.LOW)
+        GPIO.output(self.right_wheels_reverse, GPIO.LOW)
 
-    elif data['right'] == 1:
-        GPIO.output(left_wheels_forward, GPIO.HIGH)
+        if data['forward'] == 1:
+            GPIO.output(self.left_wheels_forward, GPIO.HIGH)
+            GPIO.output(self.right_wheels_forward, GPIO.HIGH)
 
-    elif data['left'] == 1:
-        GPIO.output(right_wheels_forward, GPIO.HIGH)
+        elif data['right'] == 1:
+            GPIO.output(self.left_wheels_forward, GPIO.HIGH)
 
-    elif data['reverse'] == 1:
-        GPIO.output(left_wheels_reverse, GPIO.HIGH)
-        GPIO.output(right_wheels_reverse, GPIO.HIGH)
+        elif data['left'] == 1:
+            GPIO.output(self.right_wheels_forward, GPIO.HIGH)
 
+        elif data['reverse'] == 1:
+            GPIO.output(self.left_wheels_reverse, GPIO.HIGH)
+            GPIO.output(self.right_wheels_reverse, GPIO.HIGH)
+
+
+
+rpi = RPICar()
 
 @socket_io.on('message')
 def on_message(msg):
@@ -72,13 +78,13 @@ def on_message(msg):
 @socket_io.on('connect')
 def on_connect():
     print("Connected")
-    emit('move', data, broadcast=True)
+    emit('move', rpi.data, broadcast=True)
 
 @socket_io.on('move')
 def on_move(req_data):
     print(req_data)
-    set_data(req_data['direction'], req_data['value'])
-    emit('move', data, broadcast=True)
+    rpi.set_data(req_data['direction'], req_data['value'])
+    emit('move', rpi.data, broadcast=True)
 
 @app.route("/")
 def index():
