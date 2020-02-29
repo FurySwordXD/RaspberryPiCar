@@ -43,7 +43,7 @@ class RPICar:
             self.data[k] = 0
 
     def set_data(self, key, value):
-        reset_data()
+        self.reset_data()
         self.data[key] = value
         self.move()
 
