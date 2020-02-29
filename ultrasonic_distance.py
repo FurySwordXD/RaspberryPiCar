@@ -28,7 +28,8 @@ def distance(trigger, echo):
  
     StartTime = time.time()
     StopTime = time.time()
- 
+    
+    print("Waiting Echo...")
     # save StartTime
     while GPIO.input(echo) == 0:
         StartTime = time.time()
