@@ -70,8 +70,8 @@ class RPICar:
             GPIO.output(self.left_wheels_reverse, GPIO.HIGH)
             GPIO.output(self.right_wheels_reverse, GPIO.HIGH)
 
-        speed_l = abs(self.data['throttle']) * 50 + abs(self.data['steer']) * 50 if self.data['steer'] > 0 else 0
-        speed_r = abs(self.data['throttle']) * 50 + abs(self.data['steer']) * 50 if self.data['steer'] < 0 else 0
+        speed_l = int(abs(self.data['throttle']) * 50 + abs(self.data['steer']) * 50 if self.data['steer'] > 0 else 0)
+        speed_r = int(abs(self.data['throttle']) * 50 + abs(self.data['steer']) * 50 if self.data['steer'] < 0 else 0)
 
         self.left_speed.ChangeDutyCycle(speed_l)
         self.right_speed.ChangeDutyCycle(speed_r)
