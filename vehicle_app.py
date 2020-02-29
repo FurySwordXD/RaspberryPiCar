@@ -75,8 +75,8 @@ class RPICar:
         elif self.data['steer'] < 0:
             GPIO.output(self.right_wheels_forward, GPIO.HIGH)
 
-        speed_l = int(abs(self.data['throttle']) * 50 + (abs(self.data['steer']) * 50 if self.data['steer'] > 0 else 0))
-        speed_r = int(abs(self.data['throttle']) * 50 + (abs(self.data['steer']) * 50 if self.data['steer'] < 0 else 0))
+        speed_l = int(abs(self.data['throttle']) * 30 + (abs(self.data['steer']) * 30 if self.data['steer'] > 0 else 0))
+        speed_r = int(abs(self.data['throttle']) * 30 + (abs(self.data['steer']) * 30 if self.data['steer'] < 0 else 0))
 
         print(speed_l, speed_r)
         self.left_speed.ChangeDutyCycle(speed_l)

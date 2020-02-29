@@ -29,7 +29,10 @@
                     <div class="card-body">
                         Throttle: <input type="number" class="form-control" id="throttleValue"><br>
                         Steer: <input type="number" class="form-control" id="steerValue"><br>
+
+                        <div id="joystickContainer"></div>
                     </div>
+
                 </div>
             </div>
             <div class="col-md-9 p-5">
@@ -57,6 +60,32 @@
         }
     </style>
 
+    <script src="{{ url_for('static', filename='virtualjoystick.js' }}"></script>
+    <script>
+        console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+
+        var joystick	= new VirtualJoystick({
+            container	: document.getElementById('joystickContainer'),
+            mouseSupport	: true,
+        });
+        joystick.addEventListener('touchStart', function(){
+            console.log('down')
+        })
+        joystick.addEventListener('touchEnd', function(){
+            console.log('up')
+        })
+
+        setInterval(function(){
+            var outputEl	= document.getElementById('result');
+            outputEl.innerHTML	= '<b>Result:</b> '
+                + ' dx:'+joystick.deltaX()
+                + ' dy:'+joystick.deltaY()
+                + (joystick.right()	? ' right'	: '')
+                + (joystick.up()	? ' up'		: '')
+                + (joystick.left()	? ' left'	: '')
+                + (joystick.down()	? ' down' 	: '')	
+        }, 1/30 * 1000);
+    </script>
     <script>
 
         let socket;
