@@ -72,7 +72,7 @@
                 {
                     pos = joystick.getPosition();
                     setMovementInput('throttle', pos.x/joystick.getMaxRange());
-                    setMovementInput('throttle', pos.y/joystick.getMaxRange());
+                    setMovementInput('steer', pos.y/joystick.getMaxRange());
                 }
             }, 10);
 
