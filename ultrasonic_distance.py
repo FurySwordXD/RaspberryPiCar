@@ -87,7 +87,7 @@ if __name__ == '__main__':
             print ("2. Measured Distance = %.1f cm" % dist)
             
             print("")
-            time.sleep(3)
+            time.sleep(1)
  
         # Reset by pressing CTRL + C
     except KeyboardInterrupt:
