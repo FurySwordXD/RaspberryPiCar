@@ -17,17 +17,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 
-    <style>
-        #joystickContainer {
-			width		: 500px;
-			height		: 500px;
-			overflow	: hidden;
-			padding		: 0;
-			margin		: 0;
-			-webkit-user-select	: none;
-			-moz-user-select	: none;
-		}
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -41,8 +32,6 @@
                     <div class="card-body">
                         Throttle: <input type="number" class="form-control" id="throttleValue"><br>
                         Steer: <input type="number" class="form-control" id="steerValue"><br>
-                        <span id="result"></span>
-                        <div id="joystickContainer"></div>
                     </div>
 
                 </div>
@@ -73,30 +62,33 @@
     </style>
 
     <script src="{{ url_for('static', filename='virtualjoystick.js') }}"></script>
-    <script>
-        console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+    <script type="text/html" id="joystick-view">
+    <canvas id="joystickCanvas" width="<%= squareSize %>" height="<%= squareSize %>" style="width: <%= squareSize %>px; height: <%= squareSize %>px;">
+        </canvas>
+    </script>
 
-        var joystick	= new VirtualJoystick({
-            container	: document.getElementById('joystickContainer'),
-            mouseSupport	: true,
+    <div id="joystickContent">
+    </div>
+    <div>
+        x: <span id="xVal"></span><br/>
+        y: <span id="yVal"></span><br/>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var joystickView = new JoystickView(150, function(callbackView){
+                $("#joystickContent").append(callbackView.render().el);
+                setTimeout(function(){
+                    callbackView.renderSprite();
+                }, 0);
+            });
+            joystickView.bind("verticalMove", function(y){
+                $("#yVal").html(y);
+            });
+            joystickView.bind("horizontalMove", function(x){
+                $("#xVal").html(x);
+            });
         });
-        joystick.addEventListener('touchStart', function(){
-            console.log('down')
-        })
-        joystick.addEventListener('touchEnd', function(){
-            console.log('up')
-        })
-
-        setInterval(function(){
-            var outputEl	= document.getElementById('result');
-            outputEl.innerHTML	= '<b>Result:</b> '
-                + ' dx:'+joystick.deltaX()
-                + ' dy:'+joystick.deltaY()
-                + (joystick.right()	? ' right'	: '')
-                + (joystick.up()	? ' up'		: '')
-                + (joystick.left()	? ' left'	: '')
-                + (joystick.down()	? ' down' 	: '')	
-        }, 1/30 * 1000);
     </script>
     <script>
 
