@@ -30,6 +30,8 @@
                     <div class="card-body">
                         Throttle: <input type="number" class="form-control" id="throttleValue"><br>
                         Steer: <input type="number" class="form-control" id="steerValue"><br>
+                        <br><br>
+                        <div id="joystickContainer"><div id="wrapper"></div></div>
                     </div>
 
                 </div>
@@ -51,7 +53,7 @@
             </div>
         </div>
 
-        <div id="main"><div id="wrapper"></div></div>
+        
         <script src="{{ url_for('static', filename='virtualjoystick.js') }}"></script>
 
     </div>
