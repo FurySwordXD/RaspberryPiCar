@@ -32,7 +32,8 @@ def distance(trigger, echo):
     # save StartTime
     while GPIO.input(echo) == 0:
         StartTime = time.time()
- 
+    
+    print("Calculating...")
     # save time of arrival
     while GPIO.input(echo) == 1:
         StopTime = time.time()
