@@ -27,8 +27,8 @@
                 <div class="card">
                     <h4 class="card-header">Data</h4>
                     <div class="card-body">
-                        Throttle: <span id="throttleValue">0</span><br>
-                        Steer: <span id="steerValue">0</span><br>
+                        Throttle: <input type="number" id="throttleValue"><br>
+                        Steer: <input type="number" id="steerValue"><br>
                     </div>
                 </div>
             </div>
@@ -73,11 +73,15 @@
                 {
                     switch(k)
                     {
-                        case 'throttle': $("#throttleValue").text(data[k]); break;
-                        case 'steer': $("#steerValue").text(data[k]); break;
+                        case 'throttle': $("#throttleValue").val(data[k]); break;
+                        case 'steer': $("#steerValue").val(data[k]); break;
                     }
                 }
                 
+            });
+
+            $("#throttleValue").on('change', function(value) {
+                console.log(value);
             })
 
         });
