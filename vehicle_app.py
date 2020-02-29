@@ -40,10 +40,10 @@ class RPICar:
         GPIO.setup(self.enable_a, GPIO.OUT)
         GPIO.setup(self.enable_b, GPIO.OUT)
 
-        self.left_speed = GPIO.PWM(self.enable_a, 100)
-        self.right_speed = GPIO.PWM(self.enable_b, 100)
-        self.left_speed.start(50)
-        self.right_speed.start(50)
+        self.left_speed = GPIO.PWM(self.enable_a, 1000)
+        self.right_speed = GPIO.PWM(self.enable_b, 1000)
+        self.left_speed.start(0)
+        self.right_speed.start(0)
 
         atexit.register(self.end)
 
