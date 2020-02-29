@@ -34,6 +34,9 @@ class RPICar:
         GPIO.setup(self.right_wheels_forward, GPIO.OUT)
         GPIO.setup(self.right_wheels_reverse, GPIO.OUT)
         
+        GPIO.output(self.left_wheels_forward, GPIO.HIGH)
+        GPIO.output(self.right_wheels_forward, GPIO.HIGH)
+
         GPIO.setup(self.enable_a, GPIO.OUT)
         GPIO.setup(self.enable_b, GPIO.OUT)
 
@@ -57,23 +60,29 @@ class RPICar:
         self.move()
 
     def move(self):
-        GPIO.output(self.left_wheels_forward, GPIO.LOW)
-        GPIO.output(self.left_wheels_reverse, GPIO.LOW)
-        GPIO.output(self.right_wheels_forward, GPIO.LOW)
-        GPIO.output(self.right_wheels_reverse, GPIO.LOW)
+        # GPIO.output(self.left_wheels_forward, GPIO.LOW)
+        # GPIO.output(self.left_wheels_reverse, GPIO.LOW)
+        # GPIO.output(self.right_wheels_forward, GPIO.LOW)
+        # GPIO.output(self.right_wheels_reverse, GPIO.LOW)
 
-        if self.data['throttle'] > 0:
-            GPIO.output(self.left_wheels_forward, GPIO.HIGH)
-            GPIO.output(self.right_wheels_forward, GPIO.HIGH)
+        # if self.data['throttle'] > 0:
+        #     GPIO.output(self.left_wheels_reverse, GPIO.LOW)
+        #     GPIO.output(self.right_wheels_reverse, GPIO.LOW)
 
-        elif self.data['throttle'] < 0:
-            GPIO.output(self.left_wheels_reverse, GPIO.HIGH)
-            GPIO.output(self.right_wheels_reverse, GPIO.HIGH)
+        #     GPIO.output(self.left_wheels_forward, GPIO.HIGH)
+        #     GPIO.output(self.right_wheels_forward, GPIO.HIGH)
 
-        if self.data['steer'] > 0:
-            GPIO.output(self.left_wheels_forward, GPIO.HIGH)
-        elif self.data['steer'] < 0:
-            GPIO.output(self.right_wheels_forward, GPIO.HIGH)
+        # elif self.data['throttle'] < 0:
+        #     GPIO.output(self.left_wheels_forward, GPIO.LOW)
+        #     GPIO.output(self.right_wheels_forward, GPIO.LOW)
+
+        #     GPIO.output(self.left_wheels_reverse, GPIO.HIGH)
+        #     GPIO.output(self.right_wheels_reverse, GPIO.HIGH)
+
+        # if self.data['steer'] > 0:
+        #     GPIO.output(self.left_wheels_forward, GPIO.HIGH)
+        # elif self.data['steer'] < 0:
+        #     GPIO.output(self.right_wheels_forward, GPIO.HIGH)
 
         speed_l = int(abs(self.data['throttle']) * 30 + (abs(self.data['steer']) * 30 if self.data['steer'] > 0 else 0))
         speed_r = int(abs(self.data['throttle']) * 30 + (abs(self.data['steer']) * 30 if self.data['steer'] < 0 else 0))
