@@ -80,9 +80,14 @@
                 
             });
 
-            $("#throttleValue").on('change', function(value) {
-                console.log(value);
-            })
+            $("#throttleValue").on('change', function() {
+                console.log($("#throttleValue").val());
+                move('throttle', $("#throttleValue").val());
+            });
+            $("#steerValue").on('change', function() {
+                console.log($("#steerValue").val());
+                move('steer', $("#steerValue").val());
+            });
 
         });
 
