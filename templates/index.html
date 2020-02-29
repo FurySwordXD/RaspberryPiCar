@@ -61,27 +61,9 @@
     <script>
         let socket;
         let movement_input;
-        let joystick;
-        let joystick_active = false;
+
         $(document).ready(function() {
             socket = io.connect('/');
-
-            joystick = createJoystick(document.getElementById('wrapper'));
-            setInterval(() => {
-                if(joystick.dragging())
-                {
-                    joystick_active = true;
-                    pos = joystick.getPosition();
-                    setMovementInput('throttle', - pos.y / joystick.getMaxRange());
-                    setMovementInput('steer', pos.x / joystick.getMaxRange());
-                }
-                else if (joystick_active)
-                {
-                    joystick_active = false;
-                    setMovementInput('throttle', 0);
-                    setMovementInput('steer', 0);
-                }
-            }, 10);
 
             socket.on('connect', function() {
                 //socket.emit('connect', 'Connected emit');

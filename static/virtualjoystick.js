@@ -1,4 +1,4 @@
-// const joystick = createJoystick(document.getElementById('wrapper'));
+const joystick = createJoystick(document.getElementById('wrapper'));
 // setInterval(() => console.log(joystick.getPosition()), 16);
 
 function createJoystick(parent) {
@@ -49,6 +49,9 @@ function createJoystick(parent) {
         const yNew = distance * Math.sin(angle);
         stick.style.transform = `translate3d(${xNew}px, ${yNew}px, 0px)`;
         currentPos = { x: xNew, y: yNew };
+
+        setMovementInput('throttle', - currentPos.y / maxDiff);
+        setMovementInput('steer', currentPos.x / maxDiff);
     }
 
     function handleMouseUp(event) {
@@ -58,6 +61,9 @@ function createJoystick(parent) {
         dragStart = null;
         currentPos = { x: 0, y: 0 };
         dragging = false;
+        
+        setMovementInput('throttle', 0);
+        setMovementInput('steer', 0);
     }
 
     parent.appendChild(stick);
