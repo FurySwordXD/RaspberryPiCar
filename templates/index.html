@@ -27,26 +27,24 @@
                 <div class="card">
                     <h4 class="card-header">Data</h4>
                     <div class="card-body">
-                        Forward: <span id="forwardValue">0</span><br>
-                        Left: <span id="leftValue">0</span><br>
-                        Right: <span id="rightValue">0</span><br>
-                        Reverse: <span id="reverseValue">0</span>
+                        Throttle: <span id="throttleValue">0</span><br>
+                        Steer: <span id="steerValue">0</span><br>
                     </div>
                 </div>
             </div>
             <div class="col-md-9 p-5">
                 <center>
-                    <button class="btn btn-primary" ontouchstart="move('forward', 1)" ontouchend="move('forward', 0)" onmousedown="move('forward', 1)" onmouseup="move('forward', 0)">Forward</button>
+                    <button class="btn btn-primary" ontouchstart="move('throttle', 1)" ontouchend="move('throttle', 0)" onmousedown="move('throttle', 1)" onmouseup="move('throttle', 0)">Forward</button>
                 </center>
                 <br>
                 <center>
-                    <button class="btn btn-primary m-5" ontouchstart="move('left', 1)" ontouchend="move('left', 0)" onmousedown="move('left', 1)" onmouseup="move('left', 0)">Left</button>
+                    <button class="btn btn-primary m-5" ontouchstart="move('steer', -1)" ontouchend="move('steer', 0)" onmousedown="move('steer', -1)" onmouseup="move('steer', 0)">Left</button>
                     <img style="width: 20%;" src="{{ url_for('static', filename='car.png') }}">
-                    <button class="btn btn-primary m-5" ontouchstart="move('right', 1)" ontouchend="move('right', 0)" onmousedown="move('right', 1)" onmouseup="move('right', 0)">Right</button>
+                    <button class="btn btn-primary m-5" ontouchstart="move('steer', 1)" ontouchend="move('steer', 0)" onmousedown="move('steer', 1)" onmouseup="move('steer', 0)">Right</button>
                 </center>
                 <br>
                 <center>
-                    <button class="btn btn-primary" ontouchstart="move('reverse', 1)" ontouchend="move('reverse', 0)" onmousedown="move('reverse', 1)" onmouseup="move('reverse', 0)">Reverse</button>
+                    <button class="btn btn-primary" ontouchstart="move('throttle', -1)" ontouchend="move('throttle', 0)" onmousedown="move('throttle', -1)" onmouseup="move('throttle', 0)">Reverse</button>
                 </center>                
             </div>
         </div>
@@ -75,10 +73,8 @@
                 {
                     switch(k)
                     {
-                        case 'forward': $("#forwardValue").text(data[k]); break;
-                        case 'left': $("#leftValue").text(data[k]); break;
-                        case 'right': $("#rightValue").text(data[k]); break;
-                        case 'reverse': $("#reverseValue").text(data[k]); break;
+                        case 'throttle': $("#throttleValue").text(data[k]); break;
+                        case 'steer': $("#steerValue").text(data[k]); break;
                     }
                 }
                 
