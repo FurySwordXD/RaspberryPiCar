@@ -27,8 +27,8 @@
                 <div class="card">
                     <h4 class="card-header">Data</h4>
                     <div class="card-body">
-                        Throttle: <input type="number" id="throttleValue"><br>
-                        Steer: <input type="number" id="steerValue"><br>
+                        Throttle: <input type="number" class="form-control" id="throttleValue"><br>
+                        Steer: <input type="number" class="form-control" id="steerValue"><br>
                     </div>
                 </div>
             </div>
@@ -81,11 +81,9 @@
             });
 
             $("#throttleValue").on('change', function() {
-                console.log($("#throttleValue").val());
                 move('throttle', Number($("#throttleValue").val()));
             });
             $("#steerValue").on('change', function() {
-                console.log($("#steerValue").val());
                 move('steer', Number($("#steerValue").val()));
             });
 
