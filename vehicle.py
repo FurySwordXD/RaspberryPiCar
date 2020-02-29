@@ -14,7 +14,8 @@ atexit.register(end)
 
 left_wheels = 26
 right_wheels = 6
-enable = 21
+enable_a = 21
+enable_b = 20
 sleeptime = 1
 
 
@@ -23,10 +24,13 @@ GPIO.setmode(GPIO.BCM)
 
 GPIO.setup(left_wheels, GPIO.OUT)
 GPIO.setup(right_wheels, GPIO.OUT)
-GPIO.setup(enable, GPIO.OUT)
+GPIO.setup(enable_a, GPIO.OUT)
+GPIO.setup(enable_b, GPIO.OUT)
 
-p1 = GPIO.PWM(enable, 100)
+p1 = GPIO.PWM(enable_a, 1000)
+p2 = GPIO.PWM(enable_b, 1000)
 p1.start(50)
+p2.start(50)
 
 def rotate_left(x):
     GPIO.output(left_wheels, GPIO.HIGH)
@@ -42,6 +46,9 @@ def rotate_right(x):
     GPIO.output(right_wheels, GPIO.LOW)
 
 while (1):
+    speed = int(input("Enter speed (0-100): ").strip())
+    p1.ChangeDutyCycle(speed)
+    p2.ChangeDutyCycle(speed)
     rotate_left(sleeptime)
-    #rotate_right(sleeptime)
-    time.sleep(sleeptime)
+    rotate_right(sleeptime)
+    #time.sleep(sleeptime)
