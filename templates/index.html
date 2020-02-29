@@ -82,11 +82,11 @@
 
             $("#throttleValue").on('change', function() {
                 console.log($("#throttleValue").val());
-                move('throttle', $("#throttleValue").val());
+                move('throttle', Number($("#throttleValue").val()));
             });
             $("#steerValue").on('change', function() {
                 console.log($("#steerValue").val());
-                move('steer', $("#steerValue").val());
+                move('steer', Number($("#steerValue").val()));
             });
 
         });
