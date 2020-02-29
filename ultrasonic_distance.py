@@ -6,7 +6,7 @@ import time
 GPIO.setmode(GPIO.BCM)
  
 #set GPIO Pins
-GPIO_TRIGGER_1 = 18
+GPIO_TRIGGER_1 = 23
 GPIO_ECHO_1 = 24
 
 GPIO_TRIGGER_2 = 22
