@@ -13,7 +13,7 @@ import atexit
 atexit.register(end)
 
 left_wheels = 26
-right_wheels = 6
+right_wheels = 13
 enable_a = 21
 enable_b = 20
 sleeptime = 1
