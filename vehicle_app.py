@@ -53,17 +53,17 @@ class RPICar:
         GPIO.output(self.right_wheels_forward, GPIO.LOW)
         GPIO.output(self.right_wheels_reverse, GPIO.LOW)
 
-        if data['forward'] == 1:
+        if self.data['forward'] == 1:
             GPIO.output(self.left_wheels_forward, GPIO.HIGH)
             GPIO.output(self.right_wheels_forward, GPIO.HIGH)
 
-        elif data['right'] == 1:
+        elif self.data['right'] == 1:
             GPIO.output(self.left_wheels_forward, GPIO.HIGH)
 
-        elif data['left'] == 1:
+        elif self.data['left'] == 1:
             GPIO.output(self.right_wheels_forward, GPIO.HIGH)
 
-        elif data['reverse'] == 1:
+        elif self.data['reverse'] == 1:
             GPIO.output(self.left_wheels_reverse, GPIO.HIGH)
             GPIO.output(self.right_wheels_reverse, GPIO.HIGH)
 
