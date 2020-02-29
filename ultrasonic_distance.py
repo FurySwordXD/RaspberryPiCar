@@ -17,7 +17,9 @@ GPIO.setup(GPIO_ECHO_1, GPIO.IN)
 
 GPIO.setup(GPIO_TRIGGER_2, GPIO.OUT)
 GPIO.setup(GPIO_ECHO_2, GPIO.IN)
- 
+
+maxTime = 0.04
+
 def distance(trigger, echo):
     # # set Trigger to HIGH
     # GPIO.output(trigger, True)
