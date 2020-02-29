@@ -61,8 +61,20 @@
     <script>
         let socket;
         let movement_input;
+        let joystick;
+
         $(document).ready(function() {
             socket = io.connect('/');
+
+            joystick = createJoystick(document.getElementById('wrapper'));
+            setInterval(() => {
+                if(joystick.dragging())
+                {
+                    pos = joystick.getPosition();
+                    setMovementInput('throttle', pos.x/joystick.getMaxRange());
+                    setMovementInput('throttle', pos.y/joystick.getMaxRange());
+                }
+            }, 10);
 
             socket.on('connect', function() {
                 //socket.emit('connect', 'Connected emit');

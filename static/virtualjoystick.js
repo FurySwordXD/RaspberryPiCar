@@ -1,5 +1,4 @@
 const joystick = createJoystick(document.getElementById('wrapper'));
-
 // setInterval(() => console.log(joystick.getPosition()), 16);
 
 function createJoystick(parent) {
@@ -63,5 +62,7 @@ function createJoystick(parent) {
 
     return {
         getPosition: () => currentPos,
+        dragging: () => dragStart ? true : false,
+        getMaxRange: () => maxDiff,
     };
 }
