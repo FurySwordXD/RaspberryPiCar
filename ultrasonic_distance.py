@@ -49,6 +49,7 @@ def distance(trigger, echo):
 if __name__ == '__main__':
     try:
         while True:
+            print("Hello")
             dist = distance(GPIO_TRIGGER_1, GPIO_ECHO_1)
             print ("1. Measured Distance = %.1f cm" % dist)
             dist = distance(GPIO_TRIGGER_2, GPIO_ECHO_2)
