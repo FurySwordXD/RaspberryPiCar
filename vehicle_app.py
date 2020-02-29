@@ -108,7 +108,7 @@ def on_connect():
 
 @socket_io.on('move')
 def on_move(movement_input):
-    print(data)
+    print(movement_input)
     rpi.set_data(movement_input)
     emit('move', rpi.data, broadcast=True)
 
