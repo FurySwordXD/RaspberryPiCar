@@ -14,19 +14,26 @@ atexit.register(end)
 
 left_wheels = 26
 right_wheels = 6
+enable = 21
 sleeptime = 1
+
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
 GPIO.setup(left_wheels, GPIO.OUT)
 GPIO.setup(right_wheels, GPIO.OUT)
+GPIO.setup(enable, GPIO.OUT)
+
+p1 = GPIO.PWM(enable, 100)
+p1.start(50)
 
 def rotate_left(x):
     GPIO.output(left_wheels, GPIO.HIGH)
     print("Moving Left")
     time.sleep(x)
     GPIO.output(left_wheels, GPIO.LOW)
+    time.sleep(x)
 
 def rotate_right(x):
     GPIO.output(right_wheels, GPIO.HIGH)
@@ -36,9 +43,5 @@ def rotate_right(x):
 
 while (1):
     rotate_left(sleeptime)
-    rotate_right(sleeptime)
-
-def movement():
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=False)    
+    #rotate_right(sleeptime)
+    time.sleep(sleeptime)
