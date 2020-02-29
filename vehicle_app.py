@@ -73,6 +73,7 @@ class RPICar:
         speed_l = int(abs(self.data['throttle']) * 50 + (abs(self.data['steer']) * 50 if self.data['steer'] > 0 else 0))
         speed_r = int(abs(self.data['throttle']) * 50 + (abs(self.data['steer']) * 50 if self.data['steer'] < 0 else 0))
 
+        print(speed_l, speed_r)
         self.left_speed.ChangeDutyCycle(speed_l)
         self.right_speed.ChangeDutyCycle(speed_r)
 
