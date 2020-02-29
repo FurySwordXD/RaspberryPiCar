@@ -51,9 +51,9 @@ class RPICar:
         for k in self.data.keys():
             self.data[k] = 0
 
-    def set_data(self, key, value):
-        self.reset_data()
-        self.data[key] = value
+    def set_data(self, movement_input):
+        #self.reset_data()
+        self.data = movement_input
         self.move()
 
     def move(self):
@@ -107,9 +107,9 @@ def on_connect():
     emit('move', rpi.data, broadcast=True)
 
 @socket_io.on('move')
-def on_move(req_data):
-    print(req_data)
-    rpi.set_data(req_data['direction'], req_data['value'])
+def on_move(movement_input):
+    print(data)
+    rpi.set_data(movement_input)
     emit('move', rpi.data, broadcast=True)
 
 @app.route("/")
