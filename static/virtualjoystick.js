@@ -18,6 +18,7 @@ function createJoystick(parent) {
     let currentPos = { x: 0, y: 0 };
 
     function handleMouseDown(event) {
+        event.target.focus();
         stick.style.transition = '0s';
         if (event.changedTouches) {
             dragStart = {
