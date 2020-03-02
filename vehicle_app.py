@@ -65,19 +65,20 @@ class RPICar:
         # GPIO.output(self.right_wheels_forward, GPIO.LOW)
         # GPIO.output(self.right_wheels_reverse, GPIO.LOW)
 
-        # if self.data['throttle'] > 0:
-        #     GPIO.output(self.left_wheels_reverse, GPIO.LOW)
-        #     GPIO.output(self.right_wheels_reverse, GPIO.LOW)
+        if self.data['throttle'] < 0.1:
+            GPIO.output(self.left_wheels_forward, GPIO.LOW)
+            GPIO.output(self.right_wheels_forward, GPIO.LOW)
 
-        #     GPIO.output(self.left_wheels_forward, GPIO.HIGH)
-        #     GPIO.output(self.right_wheels_forward, GPIO.HIGH)
+            GPIO.output(self.left_wheels_reverse, GPIO.HIGH)
+            GPIO.output(self.right_wheels_reverse, GPIO.HIGH)
 
-        # elif self.data['throttle'] < 0:
-        #     GPIO.output(self.left_wheels_forward, GPIO.LOW)
-        #     GPIO.output(self.right_wheels_forward, GPIO.LOW)
+        else:
 
-        #     GPIO.output(self.left_wheels_reverse, GPIO.HIGH)
-        #     GPIO.output(self.right_wheels_reverse, GPIO.HIGH)
+            GPIO.output(self.left_wheels_reverse, GPIO.LOW)
+            GPIO.output(self.right_wheels_reverse, GPIO.LOW)
+
+            GPIO.output(self.left_wheels_forward, GPIO.HIGH)
+            GPIO.output(self.right_wheels_forward, GPIO.HIGH)
 
         # if self.data['steer'] > 0:
         #     GPIO.output(self.left_wheels_forward, GPIO.HIGH)
