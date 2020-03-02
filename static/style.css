@@ -5,7 +5,11 @@
     padding: 0;
     overflow: hidden;
 }
-  
+
+body{
+    overflow: hidden;
+}
+
 #joystickContainer {
     align-items: center;
     display: flex;
