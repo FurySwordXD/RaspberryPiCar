@@ -110,6 +110,7 @@
                     }
                 }
                 
+                move();
             });
 
             /*$("#throttleValue").on('change', function() {
@@ -118,7 +119,7 @@
             $("#steerValue").on('change', function() {
                 move();
             });*/
-            setInterval(function() { move(); }, 10);
+           
         });
 
         function setMovementInput(key, value)
