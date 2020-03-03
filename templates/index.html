@@ -109,7 +109,7 @@
                         case 'steer': $("#steerValueAI").val(ai_input[k]); break;
                     }
                 }
-                move();
+                
             });
 
             /*$("#throttleValue").on('change', function() {
@@ -118,7 +118,7 @@
             $("#steerValue").on('change', function() {
                 move();
             });*/
-            
+            setInterval(function() { move(); }, 10);
         });
 
         function setMovementInput(key, value)
