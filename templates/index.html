@@ -85,7 +85,8 @@
                 console.log("AI Mode: " + data);
                 $("#modeToggle").prop('checked', data);
             });
-
+            
+            
             socket.on('move', function(data) {
                 movement_input = data.movement_input;
                 ai_input = data.ai_input;
@@ -93,14 +94,14 @@
                 for (let i = 0; i < data.distances.length; i++)
                     $(`#distance${i+1}`).val(data.distances[i]);
 
-                for (k in movement_input)
-                {
-                    switch(k)
-                    {
-                        case 'throttle': $("#throttleValue").val(movement_input[k]); break;
-                        case 'steer': $("#steerValue").val(movement_input[k]); break;
-                    }
-                }
+                // for (k in movement_input)
+                // {
+                //     switch(k)
+                //     {
+                //         case 'throttle': $("#throttleValue").val(movement_input[k]); break;
+                //         case 'steer': $("#steerValue").val(movement_input[k]); break;
+                //     }
+                // }
                 for (k in ai_input)
                 {
                     switch(k)
