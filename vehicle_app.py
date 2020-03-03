@@ -90,7 +90,8 @@ class RPICar:
 
     def back_propagate(self, node_id):
         node = self.nodes[node_id]
-        for con in self.connections:
+        for c in self.connections:
+            con = self.connections[c]
             if con['outputNode'] == node_id and con['status'] == "True":
                 input_node = self.nodes[con['inputNode']]
                 if input_node['type'] != "INPUT":
