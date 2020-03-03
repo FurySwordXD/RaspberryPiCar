@@ -75,7 +75,7 @@ class RPICar:
     def load_model(self):
         self.nodes = {}
         self.connections = {}
-        self.outputs = []
+        self.outputs = [0, 0]
 
         with open('RPICarData.json') as file:
             data = json.loads(file.read())
