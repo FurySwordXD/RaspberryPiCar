@@ -124,6 +124,7 @@ class RPICar:
         self.data['ai_input']['throttle'] = self.outputs[0]
         self.data['ai_input']['steer'] = self.outputs[1]
 
+        emit('move', rpi.data, broadcast=True)
         if self.ai_mode:
             self.move()
 

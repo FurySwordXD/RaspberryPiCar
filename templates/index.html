@@ -29,14 +29,14 @@
                     <h4 class="card-header">Data</h4>
                     <div class="card-body">
                         <div class="jumbotron">
-                            Throttle: <input type="number" class="form-control" id="throttleValue"><br>
-                            Steer: <input type="number" class="form-control" id="steerValue"><br>
+                            Throttle: <input type="number" class="form-control" id="throttleValue" disabled><br>
+                            Steer: <input type="number" class="form-control" id="steerValue" disabled><br>
                         </div>
                         <div class="jumbotron">
                             Distance 1: <input type="number" class="form-control" id="distance1" disabled><br>
                             Distance 2: <input type="number"  class="form-control" id="distance2" disabled><br>
-                            AI Throttle: <input type="number" class="form-control" id="throttleValueAI"><br>
-                            AI Steer: <input type="number" class="form-control" id="steerValueAI"><br>
+                            AI Throttle: <input type="number" class="form-control" id="throttleValueAI" disabled><br>
+                            AI Steer: <input type="number" class="form-control" id="steerValueAI" disabled><br>
                         </div>
                         <br><br>
                         <div class="custom-control custom-checkbox">
@@ -87,26 +87,26 @@
             });
 
             socket.on('move', function(data) {
-                movement_input = data['movement_input'];
-                ai_input = data['ai_input'];
+                movement_input = data.movement_input;
+                ai_input = data.ai_input;
                 console.log(data);
-                for (let i = 0; i < data['distances'].length; i++)
-                    $(`#distance${i+1}`).val(data['distances'][i]);
-                    
+                for (let i = 0; i < data.distances.length; i++)
+                    $(`#distance${i+1}`).val(data.distances[i]);
+
                 for (k in movement_input)
                 {
                     switch(k)
                     {
-                        case 'throttle': $("#throttleValue").val(data[k]); break;
-                        case 'steer': $("#steerValue").val(data[k]); break;
+                        case 'throttle': $("#throttleValue").val(movement_input[k]); break;
+                        case 'steer': $("#steerValue").val(movement_input[k]); break;
                     }
                 }
                 for (k in ai_input)
                 {
                     switch(k)
                     {
-                        case 'throttle': $("#throttleValueAI").val(data[k]); break;
-                        case 'steer': $("#steerValueAI").val(data[k]); break;
+                        case 'throttle': $("#throttleValueAI").val(ai_input[k]); break;
+                        case 'steer': $("#steerValueAI").val(ai_input[k]); break;
                     }
                 }
                 
