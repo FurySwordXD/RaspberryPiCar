@@ -102,7 +102,7 @@ class RPICar:
             node['outputValue'] = math.tanh(node['outputValue'])
 
     def think(self):
-        for n in nodes:
+        for n in self.nodes:
             self.nodes[n]['outputValue'] = 0
         
         input_1 = self.calculate_distance(self.trigger_1, self.echo_1)
