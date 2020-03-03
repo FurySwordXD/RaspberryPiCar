@@ -109,8 +109,8 @@ class RPICar:
         for n in self.nodes:
             self.nodes[n]['outputValue'] = 0
         
-        input_1 = self.calculate_distance(self.trigger_1, self.echo_1)
-        input_2 = self.calculate_distance(self.trigger_2, self.echo_2)
+        input_2 = self.calculate_distance(self.trigger_1, self.echo_1)
+        input_1 = self.calculate_distance(self.trigger_2, self.echo_2)
 
         self.data['distances'] = [input_1, input_2]
         self.nodes[1]['outputValue'] = self.clamp(input_1 / 200.0, 0.0, 1.0)
