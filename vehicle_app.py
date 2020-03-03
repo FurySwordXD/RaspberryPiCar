@@ -1,9 +1,11 @@
 import sys
 import time
 import atexit
+import json
+import math
 from flask import Flask, request, render_template
 from flask_socketio import SocketIO, send, emit
-
+from threading import Thread
 import RPi.GPIO as GPIO
 
 app = Flask(__name__, static_url_path='/static/')
@@ -21,10 +23,17 @@ class RPICar:
         self.enable_a = 21
         self.enable_b= 20
 
+        self.trigger_1 = 14
+        self.echo_1 = 15
+        self.trigger_2 = 22
+        self.echo_2 = 27
+
         self.data = {
-            'throttle': 0,
-            'steer': 0
+            'movement_input': {'throttle': 0, 'steer': 0},
+            'ai_input': {'throttle': 0, 'steer': 0}
         }
+
+        self.ai_mode = False
 
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
@@ -40,12 +49,81 @@ class RPICar:
         GPIO.setup(self.enable_a, GPIO.OUT)
         GPIO.setup(self.enable_b, GPIO.OUT)
 
+        GPIO.setup(self.trigger_1, GPIO.OUT)
+        GPIO.setup(self.echo_1, GPIO.IN)
+        GPIO.setup(self.trigger_2, GPIO.OUT)
+        GPIO.setup(self.echo_2, GPIO.IN)
+
         self.left_speed = GPIO.PWM(self.enable_a, 1000)
         self.right_speed = GPIO.PWM(self.enable_b, 1000)
         self.left_speed.start(0)
         self.right_speed.start(0)
 
         atexit.register(self.end)
+
+        # AI
+        self.load_model()
+        self.ai_thread = Thread(target=self.ai_actions, args=[])
+        self.ai_thread.daemon = True
+        self.ai_thread.start()
+
+    def ai_actions(self):
+        while True:
+            self.think()
+
+    def load_model(self):
+        self.nodes = {}
+        self.connections = {}
+        self.outputs = []
+
+        with open('RPICarData.json') as file:
+            data = json.loads(file.read())
+            for node in data['nodes']:
+                self.nodes[node['id']] = node
+
+            for con in data['connections']:
+                self.connections[con['innovationNumber']] = con
+
+        for n in self.nodes:
+            self.nodes[n]['outputValue'] = 0.0 
+
+    def back_propagate(self, node_id):
+        node = self.nodes[node_id]
+        for con in self.connections:
+            if con['outputNode'] == node_id and con['status'] == "True":
+                input_node = self.nodes[con['inputNode']]
+                if input_node['type'] != "INPUT":
+                    self.back_propagate(con['inputNode'])
+
+                node['outputValue'] += input_node['outputValue'] * con['weight']
+
+        if node['type'] != "INPUT":
+            node['outputValue'] = math.tanh(node['outputValue'])
+
+    def think(self):
+        for n in nodes:
+            self.nodes[n]['outputValue'] = 0
+        
+        input_1 = self.calculate_distance(self.trigger_1, self.echo_1)
+        input_2 = self.calculate_distance(self.trigger_2, self.echo_2)
+
+        self.nodes[0]['outputValue'] = input_1
+        self.nodes[1]['outputValue'] = input_2
+
+        output_index = 0
+        for n in self.nodes:
+            node = self.nodes[n]
+            if node['type'] == "OUTPUT":
+                back_propagate(node['id'])
+                self.outputs[output_index] = node['outputValue']
+                output_index += 1
+
+        self.data['ai_input']['throttle'] = self.outputs[0]
+        self.data['ai_input']['steer'] = self.outputs[1]
+
+        if self.ai_mode:
+            self.move()
+
 
     def end(self):
         GPIO.cleanup()
@@ -56,50 +134,65 @@ class RPICar:
 
     def set_data(self, movement_input):
         #self.reset_data()
-        self.data = movement_input
+        self.data['movement_input'] = movement_input
         self.move()
 
+    def calculate_distance(self, trigger, echo):
+        maxTime = 0.04
+
+        GPIO.output(trigger,False)
+        time.sleep(0.01)
+        GPIO.output(trigger,True)
+        time.sleep(0.00001)
+        GPIO.output(trigger,False)
+
+        pulse_start = time.time()
+        timeout = pulse_start + maxTime
+        while GPIO.input(echo) == 0 and pulse_start < timeout:
+            pulse_start = time.time()
+
+        pulse_end = time.time()
+        timeout = pulse_end + maxTime
+        while GPIO.input(echo) == 1 and pulse_end < timeout:
+            pulse_end = time.time()
+
+        pulse_duration = pulse_end - pulse_start
+        distance = pulse_duration * 17000
+        distance = round(distance, 2)
+
+        return distance
+
     def move(self):
+
+        if self.ai_mode:
+            throttle = self.data['ai_input']['throttle']
+            steer = self.data['ai_input']['steer']
+        else:
+            throttle = self.data['movement_input']['throttle']
+            steer = self.data['movement_input']['steer']
+
         GPIO.output(self.left_wheels_reverse, GPIO.LOW)
         GPIO.output(self.right_wheels_reverse, GPIO.LOW)
         GPIO.output(self.left_wheels_forward, GPIO.HIGH)
         GPIO.output(self.right_wheels_forward, GPIO.HIGH)
 
-        if self.data['throttle'] < -0.1:
+        if throttle < -0.1:
             GPIO.output(self.left_wheels_forward, GPIO.LOW)
             GPIO.output(self.right_wheels_forward, GPIO.LOW)
             GPIO.output(self.left_wheels_reverse, GPIO.HIGH)
             GPIO.output(self.right_wheels_reverse, GPIO.HIGH)
 
+        speed_l = int(abs(throttle) * 100)
+        speed_r = int(abs(throttle) * 100)
 
-        # if self.data['steer'] > 0:
-        #     GPIO.output(self.left_wheels_forward, GPIO.HIGH)
-        # elif self.data['steer'] < 0:
-        #     GPIO.output(self.right_wheels_forward, GPIO.HIGH)
-
-        speed_l = int(abs(self.data['throttle']) * 100)
-        speed_r = int(abs(self.data['throttle']) * 100)
-
-        if abs(self.data['steer']) > 0.2:
-            speed_l = int(abs(self.data['steer']) * 100) if self.data['steer'] > 0 else 0
-            speed_r = int(abs(self.data['steer']) * 100) if self.data['steer'] < 0 else 0
+        if abs(steer) > 0.2:
+            speed_l = int(abs(steer) * 100) if steer > 0 else 0
+            speed_r = int(abs(steer) * 100) if steer < 0 else 0
 
         print(speed_l, speed_r)
         self.left_speed.ChangeDutyCycle(speed_l)
         self.right_speed.ChangeDutyCycle(speed_r)
-
-        # if self.data['forward'] == 1:
-        #     GPIO.output(self.left_wheels_forward, GPIO.HIGH)
-        #     GPIO.output(self.right_wheels_forward, GPIO.HIGH)
-
-        # elif self.data['right'] == 1:
-        #     GPIO.output(self.left_wheels_forward, GPIO.HIGH)
-
-        # elif self.data['left'] == 1:
-        #     GPIO.output(self.right_wheels_forward, GPIO.HIGH)
             
-
-
 
 rpi = RPICar()
 
@@ -111,6 +204,12 @@ def on_message(msg):
 def on_connect():
     print("Connected")
     emit('move', rpi.data, broadcast=True)
+
+@socket_io.on('toggle_mode')
+def toggle_mode():
+    rpi.ai_mode = not rpi.ai_mode
+    print("AI Mode: " + str(rpi.ai_mode))
+    emit('toggle_mode', rpi.ai_mode, broadcast=True)
 
 @socket_io.on('move')
 def on_move(movement_input):

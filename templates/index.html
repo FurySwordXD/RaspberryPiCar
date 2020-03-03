@@ -28,9 +28,19 @@
                 <div class="card">
                     <h4 class="card-header">Data</h4>
                     <div class="card-body">
-                        Throttle: <input type="number" class="form-control" id="throttleValue"><br>
-                        Steer: <input type="number" class="form-control" id="steerValue"><br>
+                        <div class="jumbotron">
+                            Throttle: <input type="number" class="form-control" id="throttleValue"><br>
+                            Steer: <input type="number" class="form-control" id="steerValue"><br>
+                        </div>
+                        <div class="jumbotron">
+                            AI Throttle: <input type="number" class="form-control" id="throttleValueAI"><br>
+                            AI Steer: <input type="number" class="form-control" id="steerValueAI"><br>
+                        </div>
                         <br><br>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="modeToggle" onchange="toggleMode()">
+                            <label class="custom-control-label" for="modeToggle">AI Mode</label>
+                        </div>
                         <div id="joystickContainer"><div id="wrapper"></div></div>
                     </div>
 
@@ -69,15 +79,29 @@
                 //socket.emit('connect', 'Connected emit');
             });
 
+            socket.on('toggle_mode', function(data) {
+                console.log("AI Mode: " + data);
+                $("#modeToggle").prop('checked', data);
+            });
+
             socket.on('move', function(data) {
-                movement_input = data;
+                movement_input = data['movement_input'];
+                ai_input = data['ai_input'];
                 console.log(data);
-                for (k in data)
+                for (k in movement_input)
                 {
                     switch(k)
                     {
                         case 'throttle': $("#throttleValue").val(data[k]); break;
                         case 'steer': $("#steerValue").val(data[k]); break;
+                    }
+                }
+                for (k in ai_input)
+                {
+                    switch(k)
+                    {
+                        case 'throttle': $("#throttleValueAI").val(data[k]); break;
+                        case 'steer': $("#steerValueAI").val(data[k]); break;
                     }
                 }
                 
@@ -101,6 +125,11 @@
                 case 'steer': $("#steerValue").val(value); break;
             }
             move();
+        }
+
+        function toggleMode()
+        {
+            socket.emit('toggle_mode');
         }
 
         function move()
