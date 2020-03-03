@@ -192,7 +192,7 @@ class RPICar:
             speed_l = int(abs(steer) * 100) if steer > 0 else 0
             speed_r = int(abs(steer) * 100) if steer < 0 else 0
 
-        print(speed_l, speed_r)
+        #print(speed_l, speed_r)
         self.left_speed.ChangeDutyCycle(speed_l)
         self.right_speed.ChangeDutyCycle(speed_r)
             
@@ -221,7 +221,7 @@ def on_move(movement_input):
     emit('move', rpi.data, broadcast=True)
 
 @socket_io.on('get_data')
-def get_data():
+def get_data(data):
     emit('get_data', rpi.data, broadcast=True)
 
 @app.route("/")

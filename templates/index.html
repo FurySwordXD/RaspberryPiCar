@@ -129,7 +129,7 @@
                 }
 
                 setTimeout(function() {
-                    socket.emit('get_data');
+                    socket.emit('get_data', {});
                 }, 500);
             });
 
