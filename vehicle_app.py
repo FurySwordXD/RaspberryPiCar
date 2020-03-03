@@ -116,7 +116,7 @@ class RPICar:
         for n in self.nodes:
             node = self.nodes[n]
             if node['type'] == "OUTPUT":
-                back_propagate(node['id'])
+                self.back_propagate(node['id'])
                 self.outputs[output_index] = node['outputValue']
                 output_index += 1
 
