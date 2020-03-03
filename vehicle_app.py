@@ -195,6 +195,9 @@ class RPICar:
             speed_l = int(abs(steer) * 100) if steer > 0 else 0
             speed_r = int(abs(steer) * 100) if steer < 0 else 0
 
+        if ai_mode:
+            speed_l /= 2
+            speed_r /= 2
         #print(speed_l, speed_r)
         self.left_speed.ChangeDutyCycle(speed_l)
         self.right_speed.ChangeDutyCycle(speed_r)
