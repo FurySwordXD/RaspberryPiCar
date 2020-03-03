@@ -90,18 +90,18 @@
             socket.on('move', function(data) {
                 movement_input = data.movement_input;
                 ai_input = data.ai_input;
-                console.log(data);
+
                 for (let i = 0; i < data.distances.length; i++)
                     $(`#distance${i+1}`).val(data.distances[i]);
 
-                // for (k in movement_input)
-                // {
-                //     switch(k)
-                //     {
-                //         case 'throttle': $("#throttleValue").val(movement_input[k]); break;
-                //         case 'steer': $("#steerValue").val(movement_input[k]); break;
-                //     }
-                // }
+                for (k in movement_input)
+                {
+                    switch(k)
+                    {
+                        case 'throttle': $("#throttleValue").val(movement_input[k]); break;
+                        case 'steer': $("#steerValue").val(movement_input[k]); break;
+                    }
+                }
                 for (k in ai_input)
                 {
                     switch(k)
@@ -110,16 +110,35 @@
                         case 'steer': $("#steerValueAI").val(ai_input[k]); break;
                     }
                 }
-                
-                move();
             });
 
-            /*$("#throttleValue").on('change', function() {
+            socket.on('get_data', function(data) {
+                movement_input = data.movement_input;
+                ai_input = data.ai_input;
+
+                for (let i = 0; i < data.distances.length; i++)
+                    $(`#distance${i+1}`).val(data.distances[i]);
+
+                for (k in ai_input)
+                {
+                    switch(k)
+                    {
+                        case 'throttle': $("#throttleValueAI").val(ai_input[k]); break;
+                        case 'steer': $("#steerValueAI").val(ai_input[k]); break;
+                    }
+                }
+
+                setTimeout(function() {
+                    socket.emit('get_data');
+                }, 500);
+            });
+
+            $("#throttleValue").on('change', function() {
                 move();
             });
             $("#steerValue").on('change', function() {
                 move();
-            });*/
+            });
            
         });
 
@@ -131,7 +150,7 @@
                 case 'throttle': $("#throttleValue").val(value); break;
                 case 'steer': $("#steerValue").val(value); break;
             }
-            //move();
+            move();
         }
 
         function toggleMode()

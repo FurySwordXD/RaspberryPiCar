@@ -220,6 +220,10 @@ def on_move(movement_input):
     rpi.set_data(movement_input)
     emit('move', rpi.data, broadcast=True)
 
+@socket_io.on('get_data')
+def get_data():
+    emit('get_data', rpi.data, broadcast=True)
+
 @app.route("/")
 def index():
     return render_template("index.html")
