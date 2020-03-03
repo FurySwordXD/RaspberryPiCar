@@ -212,12 +212,12 @@ def on_connect():
 @socket_io.on('toggle_mode')
 def toggle_mode():
     rpi.ai_mode = not rpi.ai_mode
-    print("AI Mode: " + str(rpi.ai_mode))
+    #print("AI Mode: " + str(rpi.ai_mode))
     emit('toggle_mode', rpi.ai_mode, broadcast=True)
 
 @socket_io.on('move')
 def on_move(movement_input):
-    print(movement_input)
+    #print(movement_input)
     rpi.set_data(movement_input)
     emit('move', rpi.data, broadcast=True)
 
