@@ -127,10 +127,8 @@
                         case 'steer': $("#steerValueAI").val(ai_input[k]); break;
                     }
                 }
-
-                setTimeout(function() {
-                    socket.emit('get_data', {});
-                }, 500);
+                
+                socket.emit('get_data', 'data');
             });
 
             $("#throttleValue").on('change', function() {
