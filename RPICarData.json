@@ -19,5 +19,5 @@
 { "inputNode": 2, "outputNode": 7, "innovationNumber": 10 },
 { "inputNode": 7, "outputNode": 4, "innovationNumber": 11 },
 { "inputNode": 2, "outputNode": 6, "innovationNumber": 12 },
-{ "inputNode": 7, "outputNode": 3, "innovationNumber": 13 }
+{ "inputNode": 7, "outputNode": 3, "innovationNumber": 13 } ]
 }
