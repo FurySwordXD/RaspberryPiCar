@@ -223,6 +223,7 @@ def on_move(movement_input):
 
 @socket_io.on('get_data')
 def get_data(data):
+    print("Emitting")
     emit('get_data', rpi.data, broadcast=True)
 
 @app.route("/")
