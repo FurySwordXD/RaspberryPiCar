@@ -36,11 +36,11 @@
                             Distance 1: <input type="number" class="form-control" id="distance1" disabled><br>
                             Distance 2: <input type="number"  class="form-control" id="distance2" disabled><br>
                             AI Throttle: <input type="number" class="form-control" id="throttleValueAI" disabled><br>
-                            AI Steer: <input type="number" class="form-control" id="steerValueAI" disabled><br>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="modeToggle" onchange="toggleMode()">
-                                <label class="custom-control-label" for="modeToggle">AI Mode</label>
-                            </div>
+                            AI Steer: <input type="number" class="form-control" id="steerValueAI" disabled><br>     
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="modeToggle" onchange="toggleMode()">
+                            <label class="custom-control-label" for="modeToggle">AI Mode</label>
                         </div>
                         <br><br>
                         <div id="joystickContainer"><div id="wrapper"></div></div>
@@ -79,6 +79,7 @@
 
             socket.on('connect', function() {
                 //socket.emit('connect', 'Connected emit');
+                socket.emit('get_data', 'data');
             });
 
             socket.on('toggle_mode', function(data) {
@@ -128,7 +129,7 @@
                     }
                 }
 
-                setTimeout(() => socket.emit('get_data', 'data'), 500);
+                setTimeout(() => socket.emit('get_data', 'data'), 250);
                 //socket.emit('get_data', 'data');
             });
 

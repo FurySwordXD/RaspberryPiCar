@@ -102,6 +102,9 @@ class RPICar:
         if node['type'] != "INPUT":
             node['outputValue'] = math.tanh(node['outputValue'])
 
+    def clamp(self, num, min_value, max_value):
+        return max(min(num, max_value), min_value)
+
     def think(self):
         for n in self.nodes:
             self.nodes[n]['outputValue'] = 0
@@ -110,8 +113,8 @@ class RPICar:
         input_2 = self.calculate_distance(self.trigger_2, self.echo_2)
 
         self.data['distances'] = [input_1, input_2]
-        self.nodes[1]['outputValue'] = input_1 / 100.0
-        self.nodes[2]['outputValue'] = input_2 / 100.0
+        self.nodes[1]['outputValue'] = self.clamp(input_1 / 200.0, 0.0, 1.0)
+        self.nodes[2]['outputValue'] = self.clamp(input_2 / 200.0, 0.0, 1.0)
 
         output_index = 0
         for n in self.nodes:
@@ -188,7 +191,7 @@ class RPICar:
         speed_l = int(abs(throttle) * 100)
         speed_r = int(abs(throttle) * 100)
 
-        if abs(steer) > 0.2:
+        if abs(steer) > 0.5:
             speed_l = int(abs(steer) * 100) if steer > 0 else 0
             speed_r = int(abs(steer) * 100) if steer < 0 else 0
 
@@ -213,6 +216,7 @@ def on_connect():
 def toggle_mode():
     rpi.ai_mode = not rpi.ai_mode
     #print("AI Mode: " + str(rpi.ai_mode))
+    rpi.move()
     emit('toggle_mode', rpi.ai_mode, broadcast=True)
 
 @socket_io.on('move')
