@@ -79,10 +79,10 @@ class RPICar:
 
         with open('RPICarData.json') as file:
             data = json.loads(file.read())
-            for node in data['nodes']:
+            for node in data['Nodes']:
                 self.nodes[node['id']] = node
 
-            for con in data['connections']:
+            for con in data['Connections']:
                 self.connections[con['innovationNumber']] = con
 
         for n in self.nodes:
