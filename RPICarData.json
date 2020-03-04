@@ -3,12 +3,13 @@
     { "id": 3, "type": "OUTPUT" },
     { "id": 4, "type": "OUTPUT" },
     { "id": 5, "type": "HIDDEN" } ],
-    "Connections": [ { "inputNode": 1, "outputNode": 3, "weight": 0.022296, "status": "False", "innovationNumber": 1 },
+    "Connections": [ { "inputNode": 1, "outputNode": 3, "weight": -1.138157, "status": "False", "innovationNumber": 1 },
     { "inputNode": 1, "outputNode": 4, "weight": -1.448714, "status": "True", "innovationNumber": 2 },
     { "inputNode": 2, "outputNode": 3, "weight": 1.409906, "status": "True", "innovationNumber": 3 },
     { "inputNode": 2, "outputNode": 4, "weight": 1.392926, "status": "True", "innovationNumber": 4 },
     { "inputNode": 1, "outputNode": 5, "weight": 1.0, "status": "True", "innovationNumber": 8 },
-    { "inputNode": 5, "outputNode": 3, "weight": 0.022296, "status": "True", "innovationNumber": 6 } ],
+    { "inputNode": 5, "outputNode": 3, "weight": 0.022296, "status": "True", "innovationNumber": 6 },
+    { "inputNode": 5, "outputNode": 4, "weight": -0.244942, "status": "True", "innovationNumber": 7 } ],
     "Innovations": [ { "inputNode": 1, "outputNode": 3, "innovationNumber": 1 },
     { "inputNode": 1, "outputNode": 4, "innovationNumber": 2 },
     { "inputNode": 2, "outputNode": 3, "innovationNumber": 3 },
@@ -167,4 +168,4 @@
     { "inputNode": 12, "outputNode": 5, "innovationNumber": 156 },
     { "inputNode": 14, "outputNode": 10, "innovationNumber": 157 },
     { "inputNode": 8, "outputNode": 13, "innovationNumber": 158 } ]
-    }
+}
