@@ -21,6 +21,10 @@ GPIO.setup(GPIO_ECHO_1, GPIO.IN)
 GPIO.setup(GPIO_TRIGGER_2, GPIO.OUT)
 GPIO.setup(GPIO_ECHO_2, GPIO.IN)
 
+
+GPIO.setup(GPIO_TRIGGER_3, GPIO.OUT)
+GPIO.setup(GPIO_ECHO_3, GPIO.IN)
+
 maxTime = 0.04
 
 def calculate_distance(trigger, echo):
