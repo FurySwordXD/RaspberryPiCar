@@ -124,8 +124,8 @@ class RPICar:
                 self.outputs[output_index] = node['outputValue']
                 output_index += 1
 
-        self.data['ai_input']['throttle'] = int(self.outputs[0] * 100)
-        self.data['ai_input']['steer'] = int(self.outputs[1] * 100)
+        self.data['ai_input']['throttle'] = int(self.outputs[0] * 100) / 100.0
+        self.data['ai_input']['steer'] = int(self.outputs[1] * 100) / 100.0
 
         if self.ai_mode:
             self.move()
