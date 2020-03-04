@@ -196,10 +196,6 @@ class RPICar:
         speed_l = int(self.change_range(0, 1, 0.4, 1, abs(throttle)) * 100)
         speed_r = int(self.change_range(0, 1, 0.4, 1, abs(throttle)) * 100)
 
-        if self.ai_mode:
-            speed_l = 40
-            speed_r = 40
-
         if abs(steer) > 0.2:
             speed_l = int(self.change_range(0, 1, 0.4, 1, abs(steer)) * 100) if steer > 0 else 0
             speed_r = int(self.change_range(0, 1, 0.4, 1, abs(steer)) * 100) if steer < 0 else 0
