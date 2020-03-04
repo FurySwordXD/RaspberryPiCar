@@ -168,15 +168,21 @@ class RPICar:
 
         return distance
 
+    def change_range(self, in_min, in_max, out_min, out_max, value):
+        return ( (value - in_min) / (in_max - in_min) ) * (out_max - out_min) + out_min
+
     def move(self):
+
+        throttle = self.data['movement_input']['throttle']
+        steer = self.data['movement_input']['steer']
 
         if self.ai_mode:
             throttle = self.data['ai_input']['throttle']
             steer = self.data['ai_input']['steer']
-        else:
-            throttle = self.data['movement_input']['throttle']
-            steer = self.data['movement_input']['steer']
 
+        steer = self.change_range(0, 1, 0.4, 1, steer)
+        throttle = self.change_range(0, 1, 0.4, 1, steer)
+            
         GPIO.output(self.left_wheels_reverse, GPIO.LOW)
         GPIO.output(self.right_wheels_reverse, GPIO.LOW)
         GPIO.output(self.left_wheels_forward, GPIO.HIGH)
