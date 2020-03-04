@@ -183,7 +183,7 @@ class RPICar:
             steer = self.data['ai_input']['steer']
 
         steer = self.change_range(0, 1, 0.4, 1, steer)
-        throttle = self.change_range(0, 1, 0.4, 1, steer)
+        throttle = self.change_range(0, 1, 0.4, 1, throttle)
             
         GPIO.output(self.left_wheels_reverse, GPIO.LOW)
         GPIO.output(self.right_wheels_reverse, GPIO.LOW)
