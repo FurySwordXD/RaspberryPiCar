@@ -169,6 +169,8 @@ class RPICar:
         return distance
 
     def change_range(self, in_min, in_max, out_min, out_max, value):
+        if abs(value) < 0.1:
+            return 0
         return ( (value - in_min) / (in_max - in_min) ) * (out_max - out_min) + out_min
 
     def move(self):
