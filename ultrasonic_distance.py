@@ -57,14 +57,14 @@ def calculate_distance(trigger, echo):
 if __name__ == '__main__':
     try:
         while True:
-            dist = calculate_distance(GPIO_TRIGGER_1, GPIO_ECHO_1)
-            print ("1. Measured Distance = %.1f cm" % dist)
+            d1 = calculate_distance(GPIO_TRIGGER_1, GPIO_ECHO_1)
+            print ("1. Measured Distance = %.1f cm" % d1)
 
-            dist = calculate_distance(GPIO_TRIGGER_2, GPIO_ECHO_2)
-            print ("2. Measured Distance = %.1f cm" % dist)
+            d2 = calculate_distance(GPIO_TRIGGER_2, GPIO_ECHO_2)
+            print ("2. Measured Distance = %.1f cm" % d2)
 
-            dist = calculate_distance(GPIO_TRIGGER_3, GPIO_ECHO_3)
-            print ("3. Measured Distance = %.1f cm" % dist)
+            d3 = calculate_distance(GPIO_TRIGGER_3, GPIO_ECHO_3)
+            print ("3. Measured Distance = %.1f cm" % d3)
             
             print("")
             time.sleep(1)
