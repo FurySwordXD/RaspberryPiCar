@@ -12,8 +12,8 @@ GPIO_ECHO_1 = 15
 GPIO_TRIGGER_2 = 22
 GPIO_ECHO_2 = 27
 
-GPIO_TRIGGER_3 = 7
-GPIO_ECHO_3 = 8
+#GPIO_TRIGGER_3 = 7
+#GPIO_ECHO_3 = 8
 #set GPIO direction (IN / OUT)
 GPIO.setup(GPIO_TRIGGER_1, GPIO.OUT)
 GPIO.setup(GPIO_ECHO_1, GPIO.IN)
@@ -63,8 +63,8 @@ if __name__ == '__main__':
             d2 = calculate_distance(GPIO_TRIGGER_2, GPIO_ECHO_2)
             print ("2. Measured Distance = %.1f cm" % d2)
 
-            d3 = calculate_distance(GPIO_TRIGGER_3, GPIO_ECHO_3)
-            print ("3. Measured Distance = %.1f cm" % d3)
+            #d3 = calculate_distance(GPIO_TRIGGER_3, GPIO_ECHO_3)
+            #print ("3. Measured Distance = %.1f cm" % d3)
             
             print("")
             time.sleep(1)
