@@ -181,9 +181,6 @@ class RPICar:
         if self.ai_mode:
             throttle = self.data['ai_input']['throttle']
             steer = self.data['ai_input']['steer']
-
-        steer = self.change_range(0, 1, 0.4, 1, steer)
-        throttle = self.change_range(0, 1, 0.4, 1, throttle)
             
         GPIO.output(self.left_wheels_reverse, GPIO.LOW)
         GPIO.output(self.right_wheels_reverse, GPIO.LOW)
@@ -196,16 +193,16 @@ class RPICar:
             GPIO.output(self.left_wheels_reverse, GPIO.HIGH)
             GPIO.output(self.right_wheels_reverse, GPIO.HIGH)
 
-        speed_l = int(abs(throttle) * 100)
-        speed_r = int(abs(throttle) * 100)
+        speed_l = int(self.change_range(0, 1, 0.4, 1, abs(throttle)) * 100)
+        speed_r = int(self.change_range(0, 1, 0.4, 1, abs(throttle)) * 100)
 
         if self.ai_mode:
             speed_l = 40
             speed_r = 40
 
         if abs(steer) > 0.2:
-            speed_l = int(abs(steer) * 100) if steer > 0 else 0
-            speed_r = int(abs(steer) * 100) if steer < 0 else 0
+            speed_l = int(self.change_range(0, 1, 0.4, 1, abs(steer)) * 100) if steer > 0 else 0
+            speed_r = int(self.change_range(0, 1, 0.4, 1, abs(steer)) * 100) if steer < 0 else 0
 
         #print(speed_l, speed_r)
         self.left_speed.ChangeDutyCycle(speed_l)
