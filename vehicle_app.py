@@ -27,11 +27,13 @@ class RPICar:
         self.echo_1 = 15
         self.trigger_2 = 22
         self.echo_2 = 27
+        self.trigger_3 = 12
+        self.echo_3 = 16
 
         self.data = {
             'movement_input': {'throttle': 0, 'steer': 0},
             'ai_input': {'throttle': 0, 'steer': 0},
-            'distances': [0, 0]
+            'distances': [0, 0, 0]
         }
 
         self.ai_mode = False
@@ -109,12 +111,14 @@ class RPICar:
         for n in self.nodes:
             self.nodes[n]['outputValue'] = 0
         
-        input_2 = self.calculate_distance(self.trigger_1, self.echo_1)
+        input_3 = self.calculate_distance(self.trigger_1, self.echo_1)
+        input_2 = self.calculate_distance(self.trigger_3, self.echo_3)
         input_1 = self.calculate_distance(self.trigger_2, self.echo_2)
 
-        self.data['distances'] = [input_1, input_2]
+        self.data['distances'] = [input_1, input_2, input_3]
         self.nodes[1]['outputValue'] = self.clamp(input_1 / 200.0, 0.0, 1.0)
         self.nodes[2]['outputValue'] = self.clamp(input_2 / 200.0, 0.0, 1.0)
+        self.nodes[3]['outputValue'] = self.clamp(input_3 / 200.0, 0.0, 1.0)
 
         output_index = 0
         for n in self.nodes:
