@@ -56,6 +56,8 @@ class RPICar:
         GPIO.setup(self.echo_1, GPIO.IN)
         GPIO.setup(self.trigger_2, GPIO.OUT)
         GPIO.setup(self.echo_2, GPIO.IN)
+        GPIO.setup(self.trigger_3, GPIO.OUT)
+        GPIO.setup(self.echo_3, GPIO.IN)
 
         self.left_speed = GPIO.PWM(self.enable_a, 1000)
         self.right_speed = GPIO.PWM(self.enable_b, 1000)
