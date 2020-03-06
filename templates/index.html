@@ -29,8 +29,8 @@
                     <h4 class="card-header">Data</h4>
                     <div class="card-body">
                         <div class="jumbotron">
-                            Throttle: <input type="number" class="form-control" id="throttleValue" disabled><br>
-                            Steer: <input type="number" class="form-control" id="steerValue" disabled><br>
+                            Throttle: <input type="number" class="form-control" id="throttleValue" value="0" disabled><br>
+                            Steer: <input type="number" class="form-control" id="steerValue" value="0" disabled><br>
                         </div>
                         <div class="jumbotron">
                             Distance 1: <input type="number" class="form-control" id="distance1" disabled><br>
@@ -82,53 +82,18 @@
                 //socket.emit('connect', 'Connected emit');
                 socket.emit('get_data', 'data');
             });
-
-            socket.on('toggle_mode', function(data) {
-                console.log("AI Mode: " + data);
-                $("#modeToggle").prop('checked', data);
-            });
             
-            
-            socket.on('move', function(data) {
-                movement_input = data.movement_input;
-                ai_input = data.ai_input;
-
-                for (let i = 0; i < data.distances.length; i++)
-                    $(`#distance${i+1}`).val(data.distances[i]);
-
-                for (k in movement_input)
-                {
-                    switch(k)
-                    {
-                        case 'throttle': $("#throttleValue").val(movement_input[k]); break;
-                        case 'steer': $("#steerValue").val(movement_input[k]); break;
-                    }
-                }
-                for (k in ai_input)
-                {
-                    switch(k)
-                    {
-                        case 'throttle': $("#throttleValueAI").val(ai_input[k]); break;
-                        case 'steer': $("#steerValueAI").val(ai_input[k]); break;
-                    }
-                }
-            });
-
             socket.on('get_data', function(data) {
                 movement_input = data.movement_input;
                 ai_input = data.ai_input;
-
+                
                 for (let i = 0; i < data.distances.length; i++)
                     $(`#distance${i+1}`).val(data.distances[i]);
 
-                for (k in ai_input)
-                {
-                    switch(k)
-                    {
-                        case 'throttle': $("#throttleValueAI").val(ai_input[k]); break;
-                        case 'steer': $("#steerValueAI").val(ai_input[k]); break;
-                    }
-                }
+                $("#throttleValueAI").val(ai_input['throttle']);
+                $("#steerValueAI").val(ai_input['steer']);
+
+                $("#modeToggle").prop('checked', data);
 
                 setTimeout(() => socket.emit('get_data', 'data'), 500);
                 //socket.emit('get_data', 'data');

@@ -32,6 +32,7 @@ class RPICar:
 
         self.data = {
             'movement_input': {'throttle': 0, 'steer': 0},
+            'ai_mode': False,
             'ai_input': {'throttle': 0, 'steer': 0},
             'distances': [0, 0, 0]
         }
@@ -71,6 +72,10 @@ class RPICar:
         self.ai_thread = Thread(target=self.ai_actions, args=[])
         self.ai_thread.daemon = True
         self.ai_thread.start()
+
+    def toggle_mode(self):
+        self.ai_mode = not self.ai_mode
+        self.data['ai_mode'] = self.ai_mode
 
     def ai_actions(self):
         while True:
@@ -220,32 +225,21 @@ class RPICar:
 
 rpi = RPICar()
 
-@socket_io.on('message')
-def on_message(msg):
-    print(msg)
-
 @socket_io.on('connect')
 def on_connect():
     print("Connected")
-    emit('move', rpi.data, broadcast=True)
     emit('get_data', rpi.data, broadcast=True)
 
 @socket_io.on('toggle_mode')
 def toggle_mode():
-    rpi.ai_mode = not rpi.ai_mode
-    #print("AI Mode: " + str(rpi.ai_mode))
-    rpi.move()
-    emit('toggle_mode', rpi.ai_mode, broadcast=True)
+    rpi.toggle_mode()
 
 @socket_io.on('move')
 def on_move(movement_input):
-    #print(movement_input)
     rpi.set_data(movement_input)
-    emit('move', rpi.data, broadcast=True)
 
 @socket_io.on('get_data')
 def get_data(data):
-    print("Emitting")
     emit('get_data', rpi.data, broadcast=True)
 
 @app.route("/")
