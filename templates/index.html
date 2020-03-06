@@ -93,7 +93,7 @@
                 $("#throttleValueAI").val(ai_input['throttle']);
                 $("#steerValueAI").val(ai_input['steer']);
 
-                $("#modeToggle").prop('checked', data);
+                $("#modeToggle").prop('checked', data.ai_mode);
 
                 setTimeout(() => socket.emit('get_data', 'data'), 500);
                 //socket.emit('get_data', 'data');
