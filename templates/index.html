@@ -84,7 +84,6 @@
             });
             
             socket.on('get_data', function(data) {
-                movement_input = data.movement_input;
                 ai_input = data.ai_input;
                 
                 for (let i = 0; i < data.distances.length; i++)
