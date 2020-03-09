@@ -28,25 +28,30 @@ GPIO.setup(GPIO_ECHO_1, GPIO.IN)
 maxTime = 0.04
 
 def calculate_distance(trigger, echo):
-    GPIO.output(trigger,False)
+    maxTime = 0.04
 
+    GPIO.output(trigger, GPIO.LOW)
     time.sleep(0.01)
-
-    GPIO.output(trigger,True)
-
+    GPIO.output(trigger, GPIO.HIGH)
     time.sleep(0.00001)
+    GPIO.output(trigger, GPIO.LOW)
 
-    GPIO.output(trigger,False)
-
+    success = True
     pulse_start = time.time()
     timeout = pulse_start + maxTime
-    while GPIO.input(echo) == 0 and pulse_start < timeout:
-        pulse_start = time.time()
+    while GPIO.input(echo) == 0:
+        if pulse_start< timeout:
+            pulse_start = time.time()
+        else:
+            return 0
 
     pulse_end = time.time()
     timeout = pulse_end + maxTime
-    while GPIO.input(echo) == 1 and pulse_end < timeout:
-        pulse_end = time.time()
+    while GPIO.input(echo) == 1:
+        if pulse_end < timeout:
+            pulse_end = time.time()
+        else:
+            return 0
 
     pulse_duration = pulse_end - pulse_start
     distance = pulse_duration * 17000
